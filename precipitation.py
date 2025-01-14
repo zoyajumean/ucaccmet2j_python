@@ -1,12 +1,11 @@
 import json
 import csv
-res = {}
 #from collections import defaultdict
 #from datetime import datetime
 
 with open ('stations.csv') as file:
     stations= list(csv.DictReader (file))
-print (stations)
+#print (stations)
 
 
 with open ('precipitation.json',encoding='utf-8') as file:
@@ -16,22 +15,15 @@ with open ('precipitation.json',encoding='utf-8') as file:
 precipitation_info ={}
 
 
-#Seattle data
-seattle_station = 'GHCND:US1WAKG0038'
-Seattle_state= "WA"
-city_name = "Seattle"
-seattle_data= []
-
-
 for station in stations:
     #city_data
     station_number = station['Station']
     state= station['State']
     city_name= station['Location']
     city_data =[] #LISTTT
-    for measurement in contents:
-        if (measurement['station']) == seattle_station:
-            seattle_data.append(measurement)
+    for measurements in contents:
+        if (measurements['station']) == station_number:
+            city_data.append(measurements)
     #print (seattle_data)
 
 
@@ -39,9 +31,9 @@ for station in stations:
     #seattle monthly precipitation
     total_monthly_precipitation= {}
 
-    for measurement in seattle_data:
-        month= (int(measurement['date'].split('-')[1]))
-        precipitation = measurement['value']
+    for measurements in city_data:
+        month= (int(measurements['date'].split('-')[1]))
+        precipitation = measurements['value']
         if month in total_monthly_precipitation:
             total_monthly_precipitation[month] += precipitation
         else:
