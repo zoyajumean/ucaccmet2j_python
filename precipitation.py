@@ -4,6 +4,12 @@ res = {}
 #from collections import defaultdict
 #from datetime import datetime
 
+with open ('stations.csv') as file:
+    stations= list(csv.DictReader (file))
+print (stations)
+
+
+
 with open ('precipitation.json',encoding='utf-8') as file:
     contents= json.load(file)
     
@@ -34,15 +40,33 @@ for measurement in seattle_data:
     else:
         total_monthly_precipitation [month]= 0
         
-print(total_monthly_precipitation)
+#print(total_monthly_precipitation)
+
+
+#seattle yearly precipitation
+total_yearly_precipitation= sum(total_monthly_precipitation.values())
+#print(total_yearly_precipitation)
+
+#relative_monthly_precipitation
+relative_monthly_precipitation = {}
+for month in total_monthly_precipitation:
+    relative_monthly_precipitation[month] = (
+        total_monthly_precipitation[month] / total_yearly_precipitation
+    )
+#print(relative_monthly_precipitation)
+
 
 
 res = {
-        'total_monthly_precipitation': total_monthly_precipitation
+        'total_monthly_precipitation': list(total_monthly_precipitation.values()),
+        'total_yearly_precipitation': total_yearly_precipitation,
+        'relative_monthly_precipitation': list(relative_monthly_precipitation.values())
         }  
 
-with open ('res.json', 'w') as file:
-    json.dump(res, file, indent=4) 
+with open ('results.json', 'w') as file:
+    json.dump({
+        'Seattle': res
+    }, file, indent=4) 
 
 
 
