@@ -13,6 +13,7 @@ with open ('precipitation.json',encoding='utf-8') as file:
 #print (contents)
 
 precipitation_info ={}
+total_precipitation_all_stations = 0
 
 
 for station in stations:
@@ -44,6 +45,7 @@ for station in stations:
 
     #seattle yearly precipitation
     total_yearly_precipitation= sum(total_monthly_precipitation.values())
+    total_precipitation_all_stations += total_yearly_precipitation 
     #print(total_yearly_precipitation)
 
     #relative_monthly_precipitation
@@ -64,6 +66,11 @@ for station in stations:
         'relative_monthly_precipitation': list(relative_monthly_precipitation.values())
         }  
 
+for city_name, data in precipitation_info.items():
+    data['relative_yearly_precipitation'] = (
+        data['total_yearly_precipitation'] / total_precipitation_all_stations
+    )
+    
 with open ('results.json', 'w') as file:
     json.dump(precipitation_info,file,indent=4)
 
