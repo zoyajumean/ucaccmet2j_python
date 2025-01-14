@@ -14,10 +14,10 @@ with open ('precipitation.json',encoding='utf-8') as file:
 #print (contents)
 
 precipitation_info ={}
-total_precipitation_all_stations = 0
+total_precipitation_all_stations = 0       #startit with 0
 
 #keep everything in the loop 
-for station in stations:
+for station in stations:                #loop over the state stations (keep it all in loop)
     #city_data
     station_number = station['Station']
     state= station['State']                         #CASE SENSITIVEEEEEE
@@ -46,7 +46,7 @@ for station in stations:
 
     #yearly precipitation for one station THEN ALL STATIONS
     total_yearly_precipitation= sum(total_monthly_precipitation.values())
-    total_precipitation_all_stations += total_yearly_precipitation 
+    total_precipitation_all_stations += total_yearly_precipitation       #add the values of each month tog
     #print(total_yearly_precipitation)
 
     #relative_monthly_precipitation
@@ -67,6 +67,7 @@ for station in stations:
         'relative_monthly_precipitation': list(relative_monthly_precipitation.values())
         }  
 
+#get the relative precipitation of each state compared to the total precipitation yearly
 for city_name, data in precipitation_info.items():
     data['relative_yearly_precipitation'] = (
         data['total_yearly_precipitation'] / total_precipitation_all_stations
